@@ -11,10 +11,10 @@ import (
 )
 
 const (
-	basePage   = "https://www.ptt.cc/bbs/Beauty/"
-	homePage   = "https://www.ptt.cc/bbs/Beauty/index2061.html"
-	workNumber = 3
-    crawlerNumber = 1
+	basePage      = "https://www.ptt.cc/bbs/Beauty/"
+	homePage      = "https://www.ptt.cc/bbs/Beauty/index2061.html"
+	workNumber    = 3
+	crawlerNumber = 1
 )
 
 var (
@@ -45,7 +45,7 @@ func worker(linkChan <-chan string, wg *sync.WaitGroup) {
 func imageURLParser(htmlBody string, linkChan chan<- string) {
 	imageURLs := imageFilter.FindAllStringSubmatch(htmlBody, -1)
 	for _, imageURL := range imageURLs {
-        linkChan <- string(imageURL[1][:])
+		linkChan <- string(imageURL[1][:])
 	}
 }
 
