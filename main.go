@@ -12,7 +12,7 @@ import (
 
 const (
 	basePage      = "https://www.ptt.cc/bbs/Beauty/"
-	homePage      = "https://www.ptt.cc/bbs/Beauty/index2061.html"
+	homePage      = "https://www.ptt.cc/bbs/Beauty/index.html"
 	workNumber    = 3
 	crawlerNumber = 1
 )
@@ -20,6 +20,7 @@ const (
 var (
 	pageFilter  = regexp.MustCompile(`(M.([^\"]+).html)"`)
 	imageFilter = regexp.MustCompile(`href="(([^\"]+).jpg)"`)
+	titleFilter = regexp.MustCompile(`article-meta-value">([^<]*)<`)
 )
 
 func worker(linkChan <-chan string, wg *sync.WaitGroup) {
@@ -75,6 +76,8 @@ func crawler(pageLinkChan <-chan string, wg *sync.WaitGroup) {
 		if err != nil {
 			log.Fatal(err)
 		}
+		title := titleFilter.FindAllStringSubmatch(body, -1)[2][1]
+		log.Println(title)
 		imageURLParser(body, linkChan)
 	}
 	close(linkChan)
